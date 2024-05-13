@@ -28,8 +28,8 @@ const Statistics = ({good,neutral,bad,total}) => {
       <StatisticLine text="neutral" value={neutral}/>
       <StatisticLine text="bad" value={bad}/>
       <StatisticLine text="all" value={total}/>
-      <StatisticLine text='average' value ={(total)/3}/>
-      <StatisticLine text="positive" value={100*good/(total) + '%'}/>
+      <StatisticLine text='average' value ={((total)/3).toFixed(1)}/>
+      <StatisticLine text="positive" value={(100*good/(total)).toFixed(1) + '%'}/>
     </>
 }
 
