@@ -22,7 +22,7 @@
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server->>browser: JSON file [{"content": "", "date": ""}, ... }]
+    server->>browser: JSON file [{"content": "", "date": "", ... }]
     deactivate server
 
         browser executes the event handler that renders notes to display
