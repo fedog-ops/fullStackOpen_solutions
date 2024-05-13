@@ -17,7 +17,7 @@
     server-->>browser: the JavaScript file
     deactivate server
 
-        browser starts executing JavaScript code that requests JSON data from the server
+    note over browser: executes JavaScript code that requests JSON data from the server
 
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
@@ -25,4 +25,4 @@
     server->>browser: JSON file [{"content": "", "date": "", ... }]
     deactivate server
 
-        browser executes the event handler that renders notes to display
+     note over browser: executes the event handler that renders notes to display

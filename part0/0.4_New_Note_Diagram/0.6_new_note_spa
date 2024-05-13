@@ -1,10 +1,12 @@
-sequenceDiagram
+ sequenceDiagram
     participant browser
     participant server
 
+    note over browser: user clicks save
+    note over browser: DOM updates with new note
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate server
+
+    note over server: server adds new note to notes page
     server-->>browser: JSON {"message":"note created"}
     deactivate server
-
-        browser executes the event handler that renders notes to display
