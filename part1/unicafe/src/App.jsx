@@ -5,6 +5,7 @@ const Button = ({ handleClick, text }) => (
     {text}
   </button>
 )
+
 const StatisticLine = ({text, value}) => {
   return <table>
             <tbody>
@@ -16,6 +17,7 @@ const StatisticLine = ({text, value}) => {
           </table>
   
 }
+
 const Statistics = ({good,neutral,bad,total}) => {
   if(total===0) {
     return(<p>No feedback given</p>)
@@ -30,6 +32,7 @@ const Statistics = ({good,neutral,bad,total}) => {
       <StatisticLine text="positive" value={100*good/(total) + '%'}/>
     </>
 }
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
