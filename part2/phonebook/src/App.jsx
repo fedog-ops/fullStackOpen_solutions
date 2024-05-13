@@ -1,3 +1,6 @@
+import Filter from '../src/components/Filter'
+import PersonForm from '../src/components/PersonForm'
+import Persons from '../src/components/Persons'
 import { useState } from 'react'
 
 const Contact = ({params}) => {
@@ -42,27 +45,15 @@ const handleNumChange = (event) => {
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={filter} onChange={(e)=>setFiler(e.target.value)}/>
-      <form onSubmit={addName}>
-        <div>
-          name: <input 
-            value={newName}
-            onChange={handleNoteChange}
-          />
-        </div>
-        <div>number: <input 
-            value={newNumber}
-            onChange={handleNumChange}
-        /></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      
+      <Filter params={{filter, setFiler}}/>
+      <PersonForm 
+      params = {{addName, newName, handleNoteChange,newNumber, handleNumChange}}
+      />
       
       <h2>Numbers</h2>
-      {personsAfterFilter.map(x => {
-      return <Contact key={x.id} params={x}/> 
-    })}
+      <Persons personsAfterFilter={personsAfterFilter}/>
+      
     </div>
   )
 }
