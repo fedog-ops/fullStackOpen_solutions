@@ -1,19 +1,11 @@
 import Filter from '../src/components/Filter'
 import PersonForm from '../src/components/PersonForm'
 import Persons from '../src/components/Persons'
-import { useState } from 'react'
-
-const Contact = ({params}) => {
- return <p>{params.name} {params.number}</p>
-}
+import { useState, useEffect } from 'react'
+import personService from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' , number: 12345678809, id : 1},    
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])  
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFiler] = useState('')
@@ -24,23 +16,50 @@ const App = () => {
 const handleNumChange = (event) => {
   setNewNumber(event.target.value)
 }
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(response => {
+        setPersons(response)
+      })
+  }, [])
+
+  const deleteFnOf = (id) => {
+    const nameToDelete = persons.find(person => person.id === id).name
+    const confirmDelete = window.confirm(`Are you sure you want to delete user ${nameToDelete}?`);
+    if (confirmDelete) {
+      personService
+      .remove(id)
+      .then(response=>{
+        setPersons(persons.filter(p => p.id !== id))
+      })
+    }
+  }
+
+
   const addName = (event) => {
       event.preventDefault()
    
       const personsObject ={
         name: newName,
         number: newNumber,
-        id: persons.length +1,
       }
     if (persons.some(m => m.name === personsObject.name)) alert(`${newName} is already added to phonebook`)
     if (!newName) alert('Please enter a name')
-    else setPersons(persons.concat(personsObject))
-   setNewName('')
-   setNewNumber('')
+    else personService
+            .create(personsObject)
+            .then(returnedPerson => {
+              console.log(returnedPerson) 
+              // db will assaign Object a new id
+              setPersons(persons.concat(returnedPerson))
+              setNewName('')
+              setNewNumber('')
+            })
   }
   const personsAfterFilter = 
     filter === ''  ? persons : persons.filter(person => 
       person.name.toLowerCase().includes(filter.toLowerCase()))
+  
 
   return (
     <div>
@@ -52,8 +71,15 @@ const handleNumChange = (event) => {
       />
       
       <h2>Numbers</h2>
-      <Persons personsAfterFilter={personsAfterFilter}/>
-      
+      <ul>
+        {personsAfterFilter.map(person => 
+          <Persons
+            key={person.id}
+            person={person} 
+            deleteFn={() => deleteFnOf(person.id)}
+          />
+        )}
+      </ul>
     </div>
   )
 }

@@ -1,15 +1,10 @@
 import React from 'react'
 
-const Contact = ({params}) => {
-    return <p>{params.name} {params.number}</p>
-   }
-
-function Persons({personsAfterFilter}) {
+function Persons({ person, deleteFn}) {
     return (
         <div>
-            {personsAfterFilter.map(x => (
-                <Contact key={x.id} params={x} />
-            ))}
+            {person.name} {person.number}
+            <button onClick={()=>deleteFn()}>delete</button>
         </div>
     );
 }
